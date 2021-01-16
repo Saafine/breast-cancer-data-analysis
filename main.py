@@ -45,26 +45,24 @@ for header in headers:
 
 print("Missing attribute values:", total_values_missing)
 
-# Randomized CV splitters may return different results for each call of
-# split. You can make the results identical by setting `random_state`
-# to an integer.
-RS = 1
+
+random_state = 42
 
 target = df[["class"]].to_numpy().ravel()
 data = df.drop(["class"], axis=1)
 
-train_inputs, test_inputs, train_classes, test_classes = train_test_split(data, target, train_size=0.67, random_state=RS)
+train_inputs, test_inputs, train_classes, test_classes = train_test_split(data, target, test_size=0.3, random_state=random_state)
 
 classifiers = [
-    ("Decision Tree Classifier", DecisionTreeClassifier(random_state=RS, max_depth=5)),
+    ("Decision Tree Classifier", DecisionTreeClassifier(random_state=random_state, max_depth=5)),
     ("Naive Bayes", GaussianNB()),
     ("k-NN 1", KNeighborsClassifier(n_neighbors=1)),
     ("k-NN 3", KNeighborsClassifier(n_neighbors=3)),
     ("k-NN 5", KNeighborsClassifier(n_neighbors=5)),
     ("k-NN 11", KNeighborsClassifier(n_neighbors=11)),
     ("Neural Network", MLPClassifier(solver='lbfgs', alpha=1e-5,
-                        hidden_layer_sizes=(3,), random_state=RS)),
-    ("Random Forest", RandomForestClassifier(random_state=RS))
+                                     hidden_layer_sizes=(3,), random_state=random_state)),
+    ("Random Forest", RandomForestClassifier(random_state=random_state))
 ]
 
 for name, c in classifiers:

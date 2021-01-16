@@ -1,10 +1,18 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+import seaborn as sns
+
+from i18n import COLUMN_HEADER_TO_LABEL
+
+sns.set_theme()
+import numpy as np
+np.random.seed(0)
 
 db_path = "./db/breast-cancer-wisconsin.data"
 missing_values = "?"
 df = pd.read_csv(db_path, na_values=missing_values)
 df.drop(["sample"], axis=1, inplace=True)
+
 
 def printBasicColumnData():
     total_values = df["class"].count()
@@ -13,6 +21,7 @@ def printBasicColumnData():
         max = df[column].max()
         mean = round(df[column].mean(), 2)
         missing = df[column].isnull().sum()
+        plotValuesDistributionForColumn(column, COLUMN_HEADER_TO_LABEL.get(column))
         print(f'Column: {column}, min: {min}, max: {max}, mean: {mean}, missing: {missing}')
 
 
@@ -27,17 +36,20 @@ def plotClassDistribution():
     ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
     plt.show()
 
-def plotValueFrequencyChart():
-    # x = np.random.rand(N)
-    # y = np.random.rand(N)
-    # colors = np.random.rand(N)
-    # area = 15
 
-    labels = 'Ilość', 'Kolumna'
+def plotValuesDistributionForColumn(column='bare-nuclei', title="Bare Nuclei"):
+    benign = df.loc[df['class'] == 2][[column]]
+    malignant = df.loc[df['class'] == 4][[column]]
 
-    plt.scatter([1, 2, 3, 4, 5], [1, 2, 3, 4, 5], labels=labels)
+    plt.hist(benign, label="Rak Łagodny", alpha=1)
+    plt.hist(malignant, label="Nowotwór Złośliwy", alpha=0.5)
+    plt.legend()
+    plt.title(title)
+    plt.xlabel("Wartość")
+    plt.ylabel("Ilość")
     plt.show()
 
-printBasicColumnData()
-plotClassDistribution()
-# plotValueFrequencyChart()
+
+# printBasicColumnData()
+# plotClassDistribution()
+plotValuesDistributionForColumn()
