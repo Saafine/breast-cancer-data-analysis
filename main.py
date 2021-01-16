@@ -2,16 +2,18 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from sklearn import tree
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
 from sklearn.metrics import confusion_matrix, accuracy_score
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import GaussianNB
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.neural_network import MLPClassifier
 from sklearn.tree import DecisionTreeClassifier
-from data_analysis import plotConfusionMatrix, plotClassifiersAccuracy
+from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis
 
-random_state = 7
+from helpers import plotConfusionMatrix, plotClassifiersAccuracy
+
+random_state = None
 db_path = "./db/breast-cancer-wisconsin.data"
 missing_values = "?"
 df = pd.read_csv(db_path, na_values=missing_values)
@@ -34,8 +36,10 @@ classifiers = [
     ("k-NN 3", KNeighborsClassifier(n_neighbors=3)),
     ("k-NN 5", KNeighborsClassifier(n_neighbors=5)),
     ("Neural\nNetwork", MLPClassifier(solver='lbfgs', alpha=1e-5,
-                                     hidden_layer_sizes=(3,), random_state=random_state)),
-    ("Random\nForest", RandomForestClassifier(random_state=random_state))
+                                      hidden_layer_sizes=(3,), random_state=random_state)),
+    ("Random\nForest", RandomForestClassifier(random_state=random_state)),
+    ("QDA", QuadraticDiscriminantAnalysis()),
+    ("AdaBoost", AdaBoostClassifier()),
 ]
 
 classifiers_accuracy = []
