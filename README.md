@@ -10,20 +10,6 @@ This breast cancer databases was obtained from the University of Wisconsin Hospi
 4. K. P. Bennett & O. L. Mangasarian: "Robust linear programming discrimination of two linearly inseparable sets", Optimization Methods and Software 1, 1992, 23-34 (Gordon & Breach Science Publishers).
 ```
 
-Confusion matrix
-
-BEST FEATURES
-from sklearn.feature_selection import RFECV
-
-# The "accuracy" scoring is proportional to the number of correct classifications
-clf_rf_4 = RandomForestClassifier() 
-rfecv = RFECV(estimator=clf_rf_4, step=1, cv=5,scoring='accuracy')   #5-fold cross-validation
-rfecv = rfecv.fit(x_train, y_train)
-
-print('Optimal number of features :', rfecv.n_features_)
-print('Best features :', x_train.columns[rfecv.support_])
-
-
 
 (dla wybranej topologii lub kilku na wyższą ocenę)
 -
@@ -41,3 +27,15 @@ te dla nas szczególnie interesujące.
 ROC?
 • Czy w naszej bazie danych jakieś rodzaje błędów są ważniejsze /
 poważniejsze niż inne? Dlaczego?
+
+
+BEST FEATURES
+from sklearn.feature_selection import RFECV
+
+# The "accuracy" scoring is proportional to the number of correct classifications
+clf_rf_4 = RandomForestClassifier() 
+rfecv = RFECV(estimator=clf_rf_4, step=1, cv=5,scoring='accuracy')   #5-fold cross-validation
+rfecv = rfecv.fit(x_train, y_train)
+
+print('Optimal number of features :', rfecv.n_features_)
+print('Best features :', x_train.columns[rfecv.support_])

@@ -13,7 +13,7 @@ from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis
 
 from helpers import plotConfusionMatrix, plotClassifiersAccuracy
 
-random_state = None
+random_state = 4
 db_path = "./db/breast-cancer-wisconsin.data"
 missing_values = "?"
 df = pd.read_csv(db_path, na_values=missing_values)
@@ -39,7 +39,7 @@ classifiers = [
                                       hidden_layer_sizes=(3,), random_state=random_state)),
     ("Random\nForest", RandomForestClassifier(random_state=random_state)),
     ("QDA", QuadraticDiscriminantAnalysis()),
-    ("AdaBoost", AdaBoostClassifier()),
+    ("AdaBoost", AdaBoostClassifier(random_state=random_state)),
 ]
 
 classifiers_accuracy = []
