@@ -23,9 +23,10 @@ def printBasicColumnData():
         min = df[column].min()
         max = df[column].max()
         mean = round(df[column].mean(), 2)
+        median = df[column].median()
         missing = df[column].isnull().sum()
         plotValuesDistributionForColumn(column, COLUMN_HEADER_TO_LABEL.get(column))
-        print(f'Column: {column}, min: {min}, max: {max}, mean: {mean}, missing: {missing}')
+        print(f'Column: {column}, min: {min}, max: {max}, avg: {mean}, median: {median} missing: {missing}')
 
 
 def plotClassDistribution():
